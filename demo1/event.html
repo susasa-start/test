@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <child>
+            <!-- <p>姓名</p>
+            <p>年龄</p>
+            <p>爱好</p> -->
+            <template v-slot:name>
+                <h1>姓名</h1>
+              </template>
+            <template v-slot:age>
+                <h1>年龄</h1>
+              </template>
+            <template>
+                <h1>爱好</h1>
+              </template>
+        </child>
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        const child = {
+            // props: ['msg', 'msg1'],
+            // props: {
+            //     msg: Number,
+            //     msg1: String
+            // },
+            // data() {
+            //     return {
+            //         msg: "hahaha"
+            //     }
+            // },
+            template: `
+            <div>
+            <header>
+                <slot name="name"></slot>
+            </header>
+            <main>
+                <slot name="age"></slot>
+            </main>
+            <footer>
+                <slot name="like"></slot>
+            </footer>
+           
+            </div>
+            `,
+            // methods: {
+            //     handle() {
+            //         this.$emit('message', this.msg)
+            //     }
+            // }
+        }
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    msg: 'hello  '
+                }
+            },
+            components: {
+                child
+            },
+
+        })
+    </script>
+</body>
+
+</html>

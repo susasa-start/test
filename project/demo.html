@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <template v-if="done">
+            <p >hower are you</p>
+            <p>fsdfjsdjfs</p>
+        </template>
+        <template v-else>
+            <p >hello</p>
+            <p >哈哈哈s</p>
+        </template>
+
+    </div>
+    <script src="../demo1/Vue.js"></script>
+    <script>
+        const vu = new Vue({
+            el: '#app',
+            data: {
+                message: "'hello'",
+                done: false
+            }
+        })
+    </script>
+</body>
+
+</html>

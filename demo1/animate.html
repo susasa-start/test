@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 100%;
+            height: 300px;
+            background: pink;
+        }
+        
+        .detail {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: #ccc;
+        }
+        
+        .fade-enter,
+        .fade-leave-to {
+            transform: translateX(100%);
+        }
+        
+        .fade-enter-active,
+        .fade-leave-to {
+            transition: all 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show = !show">
+            Toggle render
+          </button>
+        <detail>
+            <div class="detail" v-if="show">详情页</div>
+        </detail>
+
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        const detail = {
+            props: ['show'],
+            template: `
+            <transition name="fade">
+           
+            <slot></slot>
+
+        </transition>
+            
+            `
+        }
+        new Vue({
+            el: '#app',
+            // mixins: [mimxin],
+            data() {
+                return {
+                    show: false
+
+                }
+            },
+
+            components: {
+                detail
+            }
+        })
+    </script>
+</body>
+
+</html>

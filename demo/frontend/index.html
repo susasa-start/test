@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        .table {
+            width: 1000px;
+            /* margin-top: 50px; */
+            margin-left: 100px;
+        }
+        
+        .right {
+            position: absolute;
+            left: 0;
+        }
+        
+        .shadow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .shadow form {
+            width: 450px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+        }
+        
+        .top {
+            height: 60px;
+        }
+        
+        nav {
+            width: 1000px;
+            /* margin-top: 50px; */
+            margin-left: 100px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+        <table class="table table-bordered">
+            <button type="button" class="btn btn-success right">添加信息</button>
+            <thead>
+                <tr align="center" style="font-size: 24px;">
+                    <th colspan="4">学生信息表</th>
+                </tr>
+                <tr align="center">
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>操作</th>
+                </tr>
+
+            </thead>
+            <tbody align="center">
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-info">修改</button>
+                        <button type="button" class="btn btn-warning">删除</button>
+                    </td>
+                </tr> -->
+
+            </tbody>
+
+        </table>
+
+        <section class="shadow" style="display: none;">
+            <form>
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="age">年龄</label>
+                    <input type="number" class="form-control" id="age">
+                </div>
+                <div class="form-group">
+                    <label for="sex">性别</label>
+                    <select name="" class="form-control" id="sex">
+                  <option value="1">男</option>
+                  <option value="0">女</option>
+                </select>
+                </div>
+
+                <button type="button" class="btn btn-primary">提交</button>
+            </form>
+        </section>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm">
+                <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+            </ul>
+        </nav>
+
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let type = 'add';
+        let id;
+        let page = 1;
+        let count = 5;
+        getList();
+        //获取所有学生的数据
+        function getList() {
+            $.ajax({
+                url: 'http://localhost:3000/api/students/information',
+                method: 'GET',
+                data: {
+                    page,
+                    count
+                },
+                success: function(res) {
+                    // console.log(res)
+                    if (res.status === 0) {
+                        const {
+                            result,
+                            con
+                        } = res;
+                        let str = '';
+                        result.forEach(item => {
+                            let itemStr = JSON.stringify(item);
+                            // console.log(itemStr);
+                            str += `
+                            <tr>
+                    <td>${item.name}</td>
+                    <td>${item.age}</td>
+                    <td>${item.sex==1?"男":"女"}</td>
+                    <td align="left">
+                        <button type="button" class="btn btn-info" onclick="edit(this)" id='${itemStr}'>修改</button>
+                        <button type="button" class="btn btn-warning" onclick="del(this)" id='${item._id}'>删除</button>
+                    </td>
+                </tr>
+                            `;
+                        });
+                        $('tbody').html(str);
+                        let paginationStr = '';
+                        let pageSize = Math.ceil(con / count);
+                        for (let i = 0; i < pageSize; i++) {
+                            paginationStr += `
+                            <li class="page-item"><a class="page-link" href="#" onclick="changePage(this)" id="${i+1}">${i+1}</a></li>
+               
+                            `
+                        };
+                        $('.pagination-sm').html(paginationStr)
+
+                    } else {
+                        alert(res.msg)
+                    }
+                }
+            })
+        }
+
+
+        //弹出遮罩框
+        $('.btn-success').on('click', function() {
+            type = 'add';
+            $('.shadow').css('display', 'block')
+        });
+        //添加到数据库
+        $('.btn-primary').on('click', function() {
+                if (type === 'add') {
+                    $.ajax({
+                        // 修改
+                        url: 'http://localhost:3000/api/students/add',
+                        method: 'POST',
+                        data: {
+                            name: $('#name').val(),
+                            age: $('#age').val(),
+                            sex: $('#sex').val(),
+                        },
+                        success: function(res) {
+                            if (res.status === 0) {
+                                alert(res.msg);
+                                $('.shadow').css('display', 'none')
+                                getList(); //重新调用方法
+                            }
+
+                        }
+                    })
+                } else {
+                    //编辑
+                    $.ajax({
+                        url: 'http://localhost:3000/api/students/edit',
+                        method: 'POST',
+                        data: {
+                            name: $('#name').val(),
+                            age: $('#age').val(),
+                            sex: $('#sex').val(),
+                            id
+                        },
+                        success: function(res) {
+                            if (res.status === 0) {
+                                alert(res.msg);
+                                $('.shadow').css('display', 'none')
+                                getList(); //重新调用方法
+                                // console.log(res)
+                            }
+
+                        }
+                    })
+                }
+
+            })
+            //修改数据
+        function edit(arg) {
+            type = 'edit';
+            const obj = JSON.parse(arg.id);
+            // console.log(JSON.parse(arg.id))
+            $('.shadow').css('display', 'block');
+            $('#name').val(obj.name);
+            $('#age').val(obj.age);
+            $('#sex').val(obj.sex);
+            id = obj._id;
+        }
+        // 删除数据
+        function del(arg) {
+            $.ajax({
+                url: 'http://localhost:3000/api/students/delete',
+                method: 'POST',
+                data: {
+
+                    id: arg.id
+                },
+                success: function(res) {
+                    if (res.status === 0) {
+                        // alert(res.msg);
+                        confirm(res.msg);
+                        // console.log(confirm.val())
+
+                        getList(); //重新调用方法
+                        // console.log(res)
+                        // }
+
+                    }
+                }
+            })
+        }
+
+        function changePage(arg) {
+            page = arg.id;
+            getList();
+            // console.log(arg.id)
+        }
+    </script>
+</body>
+
+</html>

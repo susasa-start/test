@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{msg}}
+        <ul>
+            <!-- <li v-for="item in list">
+                <img v-bind:src="item.url" alt="">
+                <p>{{item.title}}</p>
+            </li> -->
+            <list-item v-for="item in list" v-bind:item="item"></list-item>
+        </ul>
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        // Vue.components()
+        const listItem = {
+            props: ['item'],
+            template: `
+            <li >
+                <img v-bind:src="item.url" alt="">
+                <p>{{item.title}}</p>
+            </li>
+            `
+        }
+        new Vue({
+            el: "#app",
+            data: {
+                msg: "hello",
+                list: [{
+                    url: 'https://p1.meituan.net/moviemachine/a448ca6a5f4dafb88067722303ca0cfd96002.jpg@464w_644h_1e_1c',
+                    title: '八百1'
+                }, {
+                    url: 'https://p1.meituan.net/moviemachine/a448ca6a5f4dafb88067722303ca0cfd96002.jpg@464w_644h_1e_1c',
+                    title: '八百2'
+                }, {
+                    url: 'https://p1.meituan.net/moviemachine/a448ca6a5f4dafb88067722303ca0cfd96002.jpg@464w_644h_1e_1c',
+                    title: '八百3'
+                }]
+            },
+            components: {
+                listItem
+            }
+        })
+    </script>
+</body>
+
+</html>

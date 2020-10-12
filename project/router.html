@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            border: 1px solid #000000;
+            padding: 30px;
+        }
+        
+        .view {
+            border: 1px solid #000000;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <a href="#/">首页</a>
+        <a href="#/classfiy">分类</a>
+        <a href="#/cart">购物车</a>
+        <a href="#/mine">我的</a>
+        <div class="view"></div>
+    </div>
+    <script>
+        const routes = [{
+                path: '/',
+                template: '<div>首页</div>'
+            }, {
+                path: '/classfiy',
+                template: '<div>分类页</div>'
+            }, {
+                path: '/cart',
+                template: '<div>购物车</div>'
+            }, {
+                path: '/mine',
+                template: '<div>我的</div>'
+            }
+
+        ]
+        window.addEventListener('hashchange', urlChange, false)
+        const view = document.querySelector('.view')
+
+        function urlChange() {
+            // console.log(111)
+            const hash = window.location.hash.slice(1);
+            for (const key in routes) {
+                if (routes[key].path === hash) {
+                    view.innerHTML = routes[key].template
+                }
+
+            }
+        }
+    </script>
+</body>
+
+</html>

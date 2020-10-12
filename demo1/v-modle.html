@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <div id="app">
+        <input type="text" ref='ppp'> -->
+    <!-- <input type="text" :value="msg" @input="msg=$event.target.value">
+        <p>{{msg}}</p> -->
+    <v-input :msg="msg" @input="msg=$event" ref='abb'></v-input>
+    <!-- <button @click='kkk'></button> {{msg}} -->
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        const VInput = {
+            props: ['msg'],
+            template: `
+            <input type="text" :value="msg" @input="emit">
+            `,
+            methods: {
+                emit(e) {
+                    this.$emit('input', e.target.value)
+                }
+            }
+        }
+        new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        msg: "hello world"
+                    }
+                },
+                // methods: {
+                //     change(val) {
+                //         this.msg = val
+                //     }
+                // },
+                // methods: {
+                //     kkk() {
+                //         console.log(this)
+                //         console.log(this.$refs.ppp.value)
+
+                //     }
+                // },
+                components: {
+                    VInput
+                }
+            })
+            //v-modle 是v-on和v-bind的语法糖
+    </script>
+</body>
+
+</html>

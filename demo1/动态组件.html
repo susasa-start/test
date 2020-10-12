@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        .content {
+            background-color: green;
+            height: 762px;
+            /* height: calc(100% - 50px); */
+            /* height: 500px; */
+            width: 100%;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            height: 50px;
+            background-color: cyan;
+            width: 100%;
+        }
+        
+        .footer span {
+            font-size: 24px;
+            margin: 0 5px;
+            text-align: center;
+            line-height: 50px;
+            background-color: #ccc;
+            border-radius: 3px;
+            padding: 5px;
+        }
+        
+        .shop {
+            background-color: rgb(100, 202, 40);
+        }
+        
+        .search {
+            background-color: rgb(175, 230, 87);
+        }
+        
+        .submit {
+            background-color: rgb(231, 100, 203);
+        }
+        
+        .person {
+            background-color: rgb(202, 132, 40);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <div class="content">
+            <first></first>
+            <shop></shop>
+        </div> -->
+
+        <component v-bind:is="currentTab"></component>
+
+        <div class="footer">
+            <span v-for="(item ,index) in list" :key="index" @click="handle(index)">{{item}}</span>
+        </div>
+
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        const blogList = {
+            template: `
+            <div>
+            <div>{{item.name}}</div>
+            <div>{{item.content}}</div>
+            <button>o(￣▽￣)ｄ</button>
+
+            </div>
+            `,
+            props: ['item']
+        }
+        const blogListSecond = {
+            template: `
+            <li >
+                <img v-bind:src="item1.url" alt="">
+                <p>{{item1.title}}</p>
+            </li>
+            `,
+            props: ['item1']
+        }
+        const child1 = {
+            template: `
+            <div class="content">
+                <blog-list v-for="item in list1" :item="item"></blog-list>
+               </div>
+            `,
+            data() {
+                return {
+                    list1: [{
+                        name: '张三',
+                        content: '今天周五'
+                    }, {
+                        name: '张四',
+                        content: '明天周五'
+                    }, {
+                        name: '张五',
+                        content: '后天周五'
+                    }, {
+                        name: '张六',
+                        content: '今天吃什么'
+                    }, {
+                        name: '张军',
+                        content: '今天吃鸡吧'
+                    }]
+                }
+            },
+            components: {
+                blogList
+            }
+        }
+        const child2 = {
+            template: `
+            <div class="content shop">
+                <input type="text" v-modle="msg">
+                <p>{{msg}}</p>
+                <blog-list-second v-for="item in listitem" :item1="item"></blog-list-second>
+                </div>
+            `,
+            data() {
+                return {
+                    msg: "hello",
+                    listitem: [{
+                        url: 'https://p1.meituan.net/moviemachine/a448ca6a5f4dafb88067722303ca0cfd96002.jpg@464w_644h_1e_1c',
+                        title: '八百1'
+                    }, {
+                        url: 'https://p1.meituan.net/moviemachine/ca9d0c0268a940d73d62c004d57b957a5241814.jpg@464w_644h_1e_1c',
+                        title: '八百2'
+                    }, {
+                        url: 'https://p0.meituan.net/moviemachine/40d1e5ac176f1e9258da10a3222dbff7952117.png@464w_644h_1e_1c',
+                        title: '八百3'
+                    }, {
+                        url: 'https://p0.meituan.net/movie/202ea88abd2abf2aa1964487d61edab64556414.jpg@464w_644h_1e_1c',
+                        title: '八百3'
+                    }, {
+                        url: 'https://p0.meituan.net/moviemachine/40d1e5ac176f1e9258da10a3222dbff7952117.png@464w_644h_1e_1c',
+                        title: '八百3'
+                    }]
+                }
+            },
+            components: {
+                blogListSecond
+            }
+        }
+        const child3 = {
+            template: `
+            <div class="content search">这是+</div>
+            `
+        }
+        const child4 = {
+            template: `
+            <div class="content submit">这是发布</div>
+            `
+        }
+        const child5 = {
+            template: `
+            <div class="content person" >个人中心</div>
+            `
+        }
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    list: ['首页', '商城', '+', '发布', '个人中心'],
+                    currentTab: '',
+                    msg: "helloworld"
+                }
+            },
+            components: {
+                child1,
+                child2,
+                child3,
+                child4,
+                child5
+
+            },
+            methods: {
+                handle(index) {
+                    this.currentTab = 'child' + (index + 1)
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

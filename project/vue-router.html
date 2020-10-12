@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app">
+        <h1>Hello App!</h1>
+        <p>
+            <router-link to="/foo">Go to Foo</router-link>
+            <router-link to="/bar">Go to Bar</router-link>
+        </p>
+        <router-view></router-view>
+    </div>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        // 路由组件
+        const Foo = {
+            template: '<div>foo</div>'
+        }
+        const Bar = {
+                template: '<div>bar</div>'
+            }
+            //路由表
+        const routes = [{
+            path: '/foo',
+            component: Foo
+        }, {
+            path: '/bar',
+            component: Bar
+        }]
+
+
+        const router = new VueRouter({
+            routes // (缩写) 相当于 routes: routes
+        })
+
+        // 4. 创建和挂载根实例。
+        // 记得要通过 router 配置参数注入路由，
+        // 从而让整个应用都有路由功能
+        const app = new Vue({
+            router,
+            mounted() {
+                console.log(this.$route)
+            },
+        }).$mount('#app')
+    </script>
+</body>
+
+</html>

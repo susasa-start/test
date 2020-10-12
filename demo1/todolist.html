@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="str" v-on:keyup.enter="add()">
+        <!-- <button v-on:click="add">添加</button> -->
+        <ol>
+            <li v-for="(item ,index) in todos">
+                {{ item }}
+                <button v-on:click="remove(index)">删除</button>
+            </li>
+
+        </ol>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                todos: [
+                    'item1',
+                    'item2'
+                ],
+                str: '',
+
+            },
+            methods: {
+                add() {
+                    // if (e.keycode === 13) {
+                    this.todos.push(this.str)
+                    this.str = '';
+                    // }
+
+                },
+                remove(i) {
+                    // console.log(i);
+                    this.todos.splice(i, 1)
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

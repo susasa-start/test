@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>子组件的{{msg}}</p>
+        <!-- 给父组件自定义事件，在子组件中使用this.$emit('自定义事件名' )将自定义事件发布给父组件，父组件再执行自定义事件函数 -->
+        <child @message="handleclick"></child>
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        Vue.component('child', {
+            data() {
+                return {
+                    msg: "hhh"
+                }
+            },
+            template: `
+            <div @click="up">{{msg}}</div>
+            `,
+            methods: {
+                up() {
+                    // this.$emit('message', this.msg) //子组件给父组件发布message
+                }
+            },
+            mounted() {
+                this.$emit('message')
+            }
+        })
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    msg: ""
+                }
+            },
+            methods: {
+                handleclick(val) {
+                    this.msg = val
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

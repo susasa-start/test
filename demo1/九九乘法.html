@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    span {
+        margin: 10px 20px;
+    }
+</style>
+
+<body>
+
+    <div id="app">
+        <div v-for="i in 9">
+            <span v-for="j in i">{{j}}*{{i}}={{j*i}}
+                <!-- <br> -->
+            </span>
+
+        </div>
+
+
+    </div>
+    <script src="./Vue.js "></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+
+
+                }
+            },
+            // computed: {
+            //     multi() {
+            //         return this.res = this.i * this.j
+
+            //     }
+            // }
+
+
+        })
+    </script>
+</body>
+
+</html>

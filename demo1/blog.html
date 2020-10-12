@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item {
+            border: 1px solid #cccccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <blog></blog>
+    </div>
+    <script src="./Vue.js"></script>
+    <script>
+        const blogSum = {
+            template: `
+            <button>提交</button>
+            `
+        }
+        const blogBtn = {
+            props: ['buttonType'],
+            template: `
+                <button>{{buttonType}}</button>
+                `
+
+        }
+        const blogListItem = {
+            props: ['item'],
+            template: `
+            <div class="item">
+                <p>{{item.name}}</p>
+                <p>{{item.content}}</p>
+                <blog-btn buttonType="点赞"></blog-btn>
+                <blog-sum></blog-sum>
+            </div>
+            `,
+            components: {
+                blogBtn,
+                blogSum
+            }
+        }
+        const blogList = {
+
+            data() {
+                return {
+                    list: [{
+                        name: '张三',
+                        content: '今天周五'
+                    }, {
+                        name: '张四',
+                        content: '明天周五'
+                    }, {
+                        name: '张五',
+                        content: '后天周五'
+                    }, {
+                        name: '张六',
+                        content: '今天吃什么'
+                    }, {
+                        name: '张军',
+                        content: '今天吃鸡吧'
+                    }]
+                }
+            },
+            template: `
+            <div >
+                <blog-list-item v-for="(item,index) in list" :key="index" :item="item"></blog-list-item>
+            </div>
+            `,
+            components: {
+                blogListItem
+            }
+        }
+        const blogForm = {
+            template: `
+            <div>
+                <textarea></textarea>
+                <blog-btn buttonType="发布"></blog-btn>
+            </div>`,
+            components: {
+                blogBtn
+            }
+        }
+
+        const blog = {
+            template: `
+            <div>
+                <blog-list></blog-list>
+                <blog-form></blog-form>
+            </div>
+            `,
+            components: {
+                blogList,
+                blogForm
+            }
+        }
+
+        new Vue({
+            el: '#app',
+            components: {
+                blog
+            }
+
+        })
+    </script>
+</body>
+
+</html>
